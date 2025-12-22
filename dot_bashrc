@@ -1,0 +1,27 @@
+# ~/.bashrc
+
+# 1. Non-interactive shell check
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# 2. Source modular parts
+# Using a loop to source everything in your shell config folder
+if [ -d ~/.config/shell ]; then
+    for file in ~/.config/shell/*; do
+        [ -r "$file" ] && . "$file"
+    done
+fi
+
+# 3. Load Aliases (including modular ones)
+if [ -d ~/.config/aliases ]; then
+    for file in ~/.config/aliases/*; do
+        [ -r "$file" ] && . "$file"
+    done
+fi
+
+# 4. Local-only settings (API keys, etc.) - NOT in Git
+if [ -f ~/.bashrc_local ]; then
+    . ~/.bashrc_local
+fi

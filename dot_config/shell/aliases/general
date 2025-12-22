@@ -1,0 +1,6 @@
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias lk='ls -larth'
+alias v='nvim'
+alias ts_now='date +"%Y-%m-%d_%H%M"'
