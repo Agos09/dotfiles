@@ -1,0 +1,6 @@
+# Ignore large binary/cache folders
+dot_config/BraveSoftware/
+dot_config/google-chrome/
+dot_config/VSCodium/
+dot_config/pulse/
+dot_config/kDrive/

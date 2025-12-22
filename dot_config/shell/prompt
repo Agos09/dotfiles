@@ -1,7 +1,0 @@
-# Debian chroot check
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# PS1 logic from your original file goes here...
-# (Keep the logic that defines PS1='...' and color_prompt)

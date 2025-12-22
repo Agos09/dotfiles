@@ -8,15 +8,15 @@ esac
 
 # 2. Source modular parts
 # Using a loop to source everything in your shell config folder
-if [ -d ~/.config/shell ]; then
-    for file in ~/.config/shell/*; do
+if [ -d "$HOME/.config/shell" ]; then
+    for file in "$HOME/.config/shell"/*; do
         [ -r "$file" ] && . "$file"
     done
 fi
 
 # 3. Load Aliases (including modular ones)
-if [ -d ~/.config/aliases ]; then
-    for file in ~/.config/aliases/*; do
+if [ -d "$HOME/.config/shell/aliases/" ]; then
+    for file in "$HOME/.config/shell/aliases"/* ; do
         [ -r "$file" ] && . "$file"
     done
 fi

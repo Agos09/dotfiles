@@ -1,0 +1,20 @@
+layout {
+    // Top bar with tabs
+    pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
+    }
+    
+    // Main middle section split vertically
+    pane split_direction="vertical" {
+        pane edit="." // Opens your editor in the current folder
+        pane {
+            command "unimatrix"
+            args "-n" "-s" "96"
+        }
+    }
+
+    // Bottom status bar
+    pane size=2 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}

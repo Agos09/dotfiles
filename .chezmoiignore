@@ -1,0 +1,4 @@
+.config/doom/reveal.js/node_modules/**
+.config/doom/.local/**
+**/node_modules/**
+**/.cache/**
