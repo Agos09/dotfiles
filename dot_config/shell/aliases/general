@@ -4,3 +4,26 @@ alias l='ls -CF'
 alias lk='ls -larth'
 alias v='nvim'
 alias ts_now='date +"%Y-%m-%d_%H%M"'
+
+# --- Chezmoi Sync Shortcut ---
+# Usage: dotsync "your commit message"
+dotsync() {
+    # Save current location
+    local current_dir=$(pwd)
+    
+    echo "🚀 Jumping to Chezmoi source..."
+    chezmoi cd
+    
+    echo "📦 Staging changes..."
+    git add .
+    
+    echo "💾 Committing: $1"
+    git commit -m "$1"
+    
+    echo "☁️  Pushing to GitHub..."
+    git push
+    
+    # Go back to where you were
+    cd "$current_dir"
+    echo "✅ Done! Back in $current_dir"
+}
