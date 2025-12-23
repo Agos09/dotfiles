@@ -15,9 +15,9 @@ if [ -d "$HOME/.config/shell" ]; then
 fi
 
 # 3. Load Aliases (including modular ones)
-if [ -d "$HOME/.config/shell/aliases/" ]; then
+if [ -d "$HOME/.config/shell/aliases" ]; then
     for file in "$HOME/.config/shell/aliases"/* ; do
-        [ -r "$file" ] && . "$file"
+       [ -f "$file" ] && [ -r "$file" ] && . "$file" 
     done
 fi
 

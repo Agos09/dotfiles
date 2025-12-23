@@ -27,3 +27,4 @@ dotsync() {
     cd "$current_dir"
     echo "✅ Done! Back in $current_dir"
 }
+alias config='/usr/bin/git --git-dir=$HOME/.dotcfg/ --work-tree=$HOME/.config/'
