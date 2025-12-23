@@ -6,21 +6,40 @@ case $- in
       *) return;;
 esac
 
-# 2. Source modular parts
-# Using a loop to source everything in your shell config folder
+# 2. Source modular parts (Fixed version)
+# We only look in the 'aliases' subfolder now
 if [ -d "$HOME/.config/shell" ]; then
     for file in "$HOME/.config/shell"/*; do
-        [ -r "$file" ] && . "$file"
+        # -f ensures it's a file, not a directory like 'data'
+        # -r ensures it is readable
+        if [ -f "$file" ] && [ -r "$file" ]; then
+            # Use your optimized case filter here
+            case "$file" in
+                *.txt|*.md|*.bak|*~) continue ;; 
+                *) . "$file" ;;
+            esac
+        fi
     done
 fi
 
+
+#
 # 3. Load Aliases (including modular ones)
+# # Optimized Smart Loader
 if [ -d "$HOME/.config/shell/aliases" ]; then
-    for file in "$HOME/.config/shell/aliases"/* ; do
-       [ -f "$file" ] && [ -r "$file" ] && . "$file" 
+    for file in "$HOME/.config/shell/aliases"/*; do
+        # 1. Must be a file (-f)
+        # 2. Must be readable (-r)
+        # 3. Must NOT be a .txt or .md file
+        if [ -f "$file" ] && [ -r "$file" ]; then
+            case "$file" in
+                *.txt|*.md|*.bak|*~) continue ;; # Skip junk files
+                *) . "$file" ;;                 # Source everything else
+            esac
+        fi
     done
 fi
-
+#
 # 4. Local-only settings (API keys, etc.) - NOT in Git
 if [ -f ~/.bashrc_local ]; then
     . ~/.bashrc_local

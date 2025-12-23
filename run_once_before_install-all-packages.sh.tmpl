@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Define the data directory path
+DATA_DIR="$HOME/.config/shell/data"
+
+# 1. Install APT Packages
+if [ -f "$DATA_DIR/packages_apt.txt" ]; then
+    echo "📦 Installing APT packages from list..."
+    sudo apt update
+    # xargs reads the file and passes the package names to apt install
+    grep -v '^#' "$DATA_DIR/packages_apt.txt" | xargs -r sudo apt install -y
+fi
+
+# 2. Install Snap Packages
+if [ -f "$DATA_DIR/packages_snap.txt" ] && command -v snap >/dev/null; then
+    echo "📦 Installing Snaps..."
+    while read -r snap_name; do
+        # Skip core/system snaps that are managed by the OS
+        [[ "$snap_name" =~ ^(name|core|snapd|bare|gtk-common-themes) ]] && continue
+        [ -z "$snap_name" ] && continue
+        
+        echo "Installing $snap_name..."
+        # Try standard install, fallback to classic if needed
+        sudo snap install "$snap_name" || sudo snap install "$snap_name" --classic
+    done < "$DATA_DIR/packages_snap.txt"
+fi
+
+# 3. Install Flatpak Packages
+if [ -f "$DATA_DIR/packages_flatpak.txt" ] && command -v flatpak >/dev/null; then
+    echo "📦 Installing Flatpaks..."
+    # Ensure the flathub repository is added
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    # xargs installs all application IDs from the file
+    grep -v '^Application ID' "$DATA_DIR/packages_flatpak.txt" | xargs -r flatpak install -y flathub
+fi

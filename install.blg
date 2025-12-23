@@ -1,5 +1,0 @@
-[0] Config.pm:307> INFO - This is Biber 2.19
-[0] Config.pm:310> INFO - Logfile is 'install.blg'
-[114] biber:340> INFO - === Mon Dec 22, 2025, 16:35:56
-[318] Utils.pm:399> ERROR - Cannot find 'install.bcf'!
-[318] Biber.pm:136> INFO - ERRORS: 1
