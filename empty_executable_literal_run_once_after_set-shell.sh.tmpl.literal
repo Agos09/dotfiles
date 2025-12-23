@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# --- 1. OS DETECTION & SHELL INSTALLATION ---
+{{ if eq .chezmoi.osRelease.id "arch" -}}
+echo "🔧 [Arch] Ensuring Zsh is installed..."
+if ! command -v zsh >/dev/null; then
+    sudo pacman -S --needed zsh
+fi
+
+# Set Zsh as default shell if it isn't already
+if [ "$SHELL" != "$(which zsh)" ]; then
+    echo "Changing default shell to Zsh..."
+    chsh -s $(which zsh)
+fi
+{{ else if eq .chezmoi.osRelease.id "ubuntu" -}}
+echo "🔧 [Ubuntu] Ensuring Zsh is installed..."
+if ! command -v zsh >/dev/null; then
+    sudo apt update && sudo apt install -y zsh
+fi
+{{ end -}}
+
+# --- 2. OH MY ZSH INSTALLATION ---
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "🚀 Installing Oh My Zsh (unattended)..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
+# --- 3. RICING PLUGINS (Custom OMZ Plugins) ---
+ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins"
+
+# Helper function to clone plugins if they don't exist
+install_plugin() {
+    local name=$1
+    local url=$2
+    if [ ! -d "$ZSH_CUSTOM_DIR/$name" ]; then
+        echo "🎨 Cloning plugin: $name..."
+        git clone --depth=1 "$url" "$ZSH_CUSTOM_DIR/$name"
+    else
+        echo "✅ Plugin $name already exists."
+    fi
+}
+
+# Install Syntax Highlighting
+install_plugin "zsh-syntax-highlighting" "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+
+# Install Autosuggestions
+install_plugin "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions.git"
+
+echo "✨ Shell environment setup complete!"

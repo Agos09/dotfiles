@@ -50,11 +50,11 @@ format = '[[($all_status$ahead_behind )](fg:#7aa2f7 bg:#3b4252)]($style)'
 disabled = false
 time_format = "%R" # Hour:Minute Format
 style = "dimmed white"
-format = "[[  $time ]($style)]"
+format = '[  $time ]($style)'
 
 [cmd_duration]
 min_time = 500
-format = "[[  $duration ]($style)]"
+format = "[ $duration ]($style)"
 style = "yellow"
 
 [package]
