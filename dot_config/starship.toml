@@ -30,8 +30,8 @@ error_symbol = "[×](bold red) "
 vimcmd_symbol = "[N](bold blue) "
 
 [directory]
-style = "bg:#3b4252 fg:#e5e9f0"
-format = "[ $path ]($style)"
+style = "bg:#7aa2f7 fg:#1a1b26" # Tokyo Night Blue background, dark text
+format = "[ $path ]($style)[](fg:#7aa2f7)" # Powerline arrow transition
 truncation_length = 3
 truncation_symbol = "…/"
 

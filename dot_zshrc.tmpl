@@ -36,7 +36,7 @@ ZSH_THEME="robbyrussell"
 # DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -109,7 +109,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
+alias lk="ls -larth"
+alias ls='eza --icons --group-directories-first'
+alias ll='eza -lah --icons --git --group-directories-first'
 
 # --- Shared Modular Aliases ---
 # This looks in the same folder your Bash uses!
@@ -125,7 +127,14 @@ if [ -d "$HOME/.config/shell/aliases" ]; then
     done
 fi
 
+# 1. Colors
+export LS_COLORS="$(vivid generate dracula)"
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+autoload -Uz compinit
+compinit
+
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
-
+# Greet with the fish
+neofetch --ascii ~/.config/ascii_fish.txt
