@@ -44,3 +44,7 @@ fi
 if [ -f ~/.bashrc_local ]; then
     . ~/.bashrc_local
 fi
+# uv path
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi

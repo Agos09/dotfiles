@@ -9,7 +9,7 @@ if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
   if vim.v.shell_error ~= 0 then
     -- stylua: ignore
     vim.api.nvim_echo(
-    { { ("Error cloning lazy.nvim:\n%s\n"):format(result), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } },
+      { { ("Error cloning lazy.nvim:\n%s\n"):format(result), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } },
       true, {})
     vim.fn.getchar()
     vim.cmd.quit()
@@ -23,7 +23,7 @@ vim.opt.wrap = true
 if not pcall(require, "lazy") then
   -- stylua: ignore
   vim.api.nvim_echo(
-  { { ("Unable to load lazy from: %s\n"):format(lazypath), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } },
+    { { ("Unable to load lazy from: %s\n"):format(lazypath), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } },
     true, {})
   vim.fn.getchar()
   vim.cmd.quit()
@@ -31,4 +31,3 @@ end
 
 require("lazy_setup")
 require("polish")
-require("config.autocmds")

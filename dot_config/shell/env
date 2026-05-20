@@ -1,5 +1,5 @@
 # PATH settings
-export PATH="/usr/local/bin:/usr/bin:/bin:/snap/bin:$HOME/.config/emacs/bin:$PATH"
+export PATH="/usr/local/bin:/usr/bin:/bin:/snap/bin:$HOME/.emacs.d/bin:$PATH"
 
 # App Settings
 export LEDGER_FILE=~/kDrive/2_Areas/finance/2025.journal

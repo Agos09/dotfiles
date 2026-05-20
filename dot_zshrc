@@ -141,3 +141,15 @@ eval "$(zoxide init zsh)"
 
 # Greet with the fish
 neofetch --ascii ~/.config/ascii_fish.txt
+
+if [ -e /home/ago/.nix-profile/etc/profile.d/nix.sh ]; then . /home/ago/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# bun completions
+[ -s "/home/ago/.bun/_bun" ] && source "/home/ago/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+. "$HOME/.local/share/../bin/env"
