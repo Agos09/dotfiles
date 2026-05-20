@@ -28,3 +28,7 @@ __pycache__/
 *.key
 
 **/lazy-lock.json
+*/doom/reveal.js
+.config/doom/reveal.js/
+.config/emacs/.local/
+.config/emacs/.cache/
