@@ -4,3 +4,25 @@ dot_config/google-chrome/
 dot_config/VSCodium/
 dot_config/pulse/
 dot_config/kDrive/
+# Ignora file temporanei e di backup creati dai programmi
+*.bak
+*.bak.*
+*.swp
+*~
+.DS_Store
+
+# Ignora i file di log
+*.log
+
+# Ignora file di configurazione locale di chezmoi (fondamentale!)
+chezmoi.toml
+.chezmoiroot
+
+# Ignora eventuali ambienti virtuali python finiti qui per errore
+.venv/
+__pycache__/
+
+# Ignora file di secret che non vuoi MAI caricare
+.env
+*.pem
+*.key
