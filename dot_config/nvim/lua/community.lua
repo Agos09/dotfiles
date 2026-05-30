@@ -10,5 +10,4 @@ return {
   -- { import = "astrocommunity.completion.cmp-tabby" }, -- Example
   { import = "astrocommunity.pack.python" }, -- Add this line
   { import = "astrocommunity.editing-support.zen-mode-nvim" }, -- Optional: for focused writing
-  { import = "astrocommunity.media.image-nvim" },
 }
