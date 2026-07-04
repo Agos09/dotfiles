@@ -28,3 +28,9 @@ dotsync() {
     echo "✅ Done! Back in $current_dir"
 }
 alias config='/usr/bin/git --git-dir=$HOME/.dotcfg/ --work-tree=$HOME/.config/'
+
+alias hladd='hledger -f /home/ago/kDrive/2_Areas/finance/2026.journal add'
+
+alias hlbs='hledger -f master-standardized.journal bal'
+
+alias hlis='hledger -f master-standardized.journal is'

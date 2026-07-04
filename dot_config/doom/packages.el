@@ -78,4 +78,7 @@
 
 ;; Optional: Denote as alternative to org-roam (uncomment if you want to switch)
 ;; (package! denote)
-(package! easy-chezmoi)
+(package! chezmoi)
+
+(package! org-roam-readwise
+  :recipe (:host github :repo "snowiow/org-roam-readwise"))
