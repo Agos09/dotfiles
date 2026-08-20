@@ -12,7 +12,7 @@
 (setq display-line-numbers-type t)
 
 ;; Set org directory globally (Required before Org loads)
-(setq org-directory "~/kDrive/2_Areas/org/")
+(setq org-directory "~/roamnotes/")
 
 ;; =============================================================================
 ;; ORG-MODE CONFIGURATION
@@ -51,18 +51,66 @@
         (append org-capture-templates
                 '(;; 1. Aneddoto Biografico
                   ("a" "Aneddoto Biografico" entry
-                   (file "/home/ago/kDrive/2_Areas/org/roam_notes/20241225T070044--aneddoti.org")
+                   (file "/home/ago/roamnotes/20241225T070044--aneddoti.org")
                    "* %^{Titolo Aneddoto} :aneddoto:status-inbox:\n:PROPERTIES:\n:CREATED:  %U\n:END:\n\n%?\n"
                    :jump-to-captured t
                    :after-finalize (lambda () (org-id-get-create)))
 
                   ;; 2. Weekly Review (Inserts under 'Weekly Reviews' headline in reviews.org)
                   ("w" "Weekly Review" entry
-                   (file+headline "~/kDrive/2_Areas/org/reviews.org" "Weekly Reviews")
+                   (file+headline "~/roamnotes/reviews.org" "Weekly Reviews")
                    "* Weekly Review: %<%Y-%m-%d %a>\n** Energy Audit\nWhat gave me energy this week?\n- %?\n\nWhat drained my energy this week?\n- \n\n** Actionable Insights\nWhat is the one change I can make to do more of what gave me energy and less of what drained it?\n- \n\n** Metrics & Trends\n- Weekly Energy Score (1-5): \n- \"Change\" Implementation Rate (Last Week's Change): [ ] Yes / [ ] No\n- Focus Ratio (from Time Tracking): \n- Key Result Progress (from OKRs/Project Management): \n\n** Qualitative Reflection (Monthly - review last 4 weeks)\nRecurring themes in energy-giving activities:\n- \n\n** Recurring themes in energy-draining activities:\n- "
-                   :jump-to-captured t))))
+                   :jump-to-captured t)
 
-  ;; --- Enable org-babel languages ---
+                  ("i" "Progetto - Insure Genius/GRC" entry
+                   (file+headline "~/roamnotes/projects.org" "Progetti Attivi")
+                    "* %? :project:
+:PROPERTIES:
+:ID: %(org-id-uuid)
+:STATUS: active
+:CLIENT:
+:FEE:
+:CREATED: %U
+:END:
+** Metriche Strategiche
+- Compenso:
+- Ore stimate:
+** Collegamenti
+- [[file:~/CloudProjects/Projects/][Cartella Progetto]]
+** Considerazioni & MOC
+- Strategia principale:
+- Note di sintesi:
+" :empty-lines 1)
+
+                  ("m" "Meta - Workflow & System" entry
+                   (file+headline "~/roamnotes/meta_workflow.org" "Meta-Testing")
+                   "* %? :meta:workflow:
+:PROPERTIES:
+:ID: %(org-id-uuid)
+:STATUS: testing
+:DATE_TEST: %U
+:END:
+** Problema da risolvere
+-
+** Soluzione testata
+-
+** Risultato / Considerazione
+-
+"))))
+
+  ;; --- Org-Roam Dailies Templates ---
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           "* %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n"))
+          ("s" "Strategic Journal" entry
+           "* Strategic Reflection :journal:strategy:\n** Meta-Method Performance\n- %?\n** Insights of the Day\n- \n"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n"))))
+
+  
+;; --- Enable org-babel languages ---
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -75,11 +123,16 @@
   (add-hook 'org-mode-hook 'visual-line-mode))
 
 ;; =============================================================================
+;; PROJECT MOC HELPERS (my-projects.el)
+;; =============================================================================
+(load-file (expand-file-name "lisp/my-projects.el" doom-user-dir))
+
+;; =============================================================================
 ;; ORG-ROAM CONFIGURATION
 ;; =============================================================================
 (after! org-roam
   ;; Set org-roam directory
-  (setq org-roam-directory (expand-file-name "~/kDrive/2_Areas/org/roam_notes/"))
+  (setq org-roam-directory (expand-file-name "~/roamnotes/"))
 
   ;; Enable automatic database sync (Safe deferred load)
   (org-roam-db-autosync-mode)
@@ -89,6 +142,12 @@
         '(("d" "default" plain "%?"
            :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                               "#+title: ${title}\n")
+           :unnarrowed t)
+
+          ("j" "Project Architecture" plain
+           "* 1. Dashboard & Links\n- 📁 [[elisp:(org-open-file (org-entry-get nil \"DIR\"))][Apri Cartella Dati e Output (CloudProjects)]]\n- 💻 [[elisp:(org-open-file (org-entry-get nil \"REPO\"))][Apri Repository Codice (Code)]]\n\n* 2. Requirements & Scope\n%?\n\n* 3. Changelog & Meeting Notes\n** %U - Inception\n- Project kickoff\n"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                              ":PROPERTIES:\n:DIR:      ~/CloudProjects/Projects/${slug}/\n:REPO:     ~/Code/${slug}/\n:CLIENT:   %^{Cliente}\n:DOMAIN:   %^{Dominio (es. Finance, Coding, Patent)}\n:VALUE:    %^{Valore/Compenso}\n:STATUS:   Active\n:END:\n#+title: ${title}\n#+filetags: :project:\n")
            :unnarrowed t)
 
           ("p" "Public/Publish" plain "%?"
@@ -172,15 +231,15 @@
 ;; =============================================================================
 ;; OX-HUGO CONFIGURATION
 ;; =============================================================================
-(after! ox-hugo
+;(after! ox-hugo
   ;; Set the Hugo site directory
-  (setq org-hugo-base-dir (expand-file-name "~/kDrive/1_Projects/notes_agostinodeangelis_da15e11b/"))
-  (setq org-hugo-section "posts")
-  (setq org-hugo-use-code-for-kbd t)
-  (setq org-hugo-prefer-hugo-bindings t)
-  (setq org-hugo-export-with-toc nil)
-  (setq org-hugo-export-with-section-numbers nil)
-  (setq org-hugo-front-matter-format 'yaml))
+ ; (setq org-hugo-base-dir (expand-file-name "~/kDrive/1_Projects/notes_agostinodeangelis_da15e11b/"))
+ ; (setq org-hugo-section "posts")
+  ;(setq org-hugo-use-code-for-kbd t)
+  ;(setq org-hugo-prefer-hugo-bindings t)
+  ;(setq org-hugo-export-with-toc nil)
+  ;(setq org-hugo-export-with-section-numbers nil)
+  ;(setq org-hugo-front-matter-format 'yaml))
 
 ;; =============================================================================
 ;; OX-REVEAL CONFIGURATION
@@ -261,23 +320,23 @@
 ;; =============================================================================
 ;; PATENT WORKFLOW HELPERS
 ;; =============================================================================
-(defvar patent-helpers-paths
-  '("~/kDrive/1_Projects/Geoloom_e703c540/Agro-fiscal-oracle-llm/patent-application/patent_elisp_helpers.el"
-    "~/kDrive/1_Projects/MLR_patent_a234aa45/3_Scripts/patent_elisp_helpers.el")
-  "List of patent helper files to try loading.")
+;(defvar patent-helpers-paths
+ ; '("~/kDrive/1_Projects/Geoloom_e703c540/Agro-fiscal-oracle-llm/patent-application/patent_elisp_helpers.el"
+  ;  "~/kDrive/1_Projects/MLR_patent_a234aa45/3_Scripts/patent_elisp_helpers.el")
+  ;"List of patent helper files to try loading.")
 
-(dolist (path patent-helpers-paths)
-  (when (file-exists-p (expand-file-name path))
-    (load-file (expand-file-name path))))
+;(dolist (path patent-helpers-paths)
+ ; (when (file-exists-p (expand-file-name path))
+  ;  (load-file (expand-file-name path))))
 
 ;; Key bindings for patent workflow (C-c p prefix)
-(map! :map org-mode-map
-      "C-c p r" #'my/patent-check-refs
-      "C-c p m" #'my/insert-ref-macro
-      "C-c p n" #'my/insert-refnum-macro
-      "C-c p e" #'my/export-to-quarto-markdown
-      "C-c p l" #'my/list-all-refs
-      "C-c p v" #'my/patent-check-missing-refs)
+;(map! :map org-mode-map
+ ;     "C-c p r" #'my/patent-check-refs
+  ;    "C-c p m" #'my/insert-ref-macro
+   ;   "C-c p n" #'my/insert-refnum-macro
+    ;  "C-c p e" #'my/export-to-quarto-markdown
+     ; "C-c p l" #'my/list-all-refs
+      ;"C-c p v" #'my/patent-check-missing-refs)
 
 ;; =============================================================================
 ;; ADDITIONAL PACKAGES & TOOLS
@@ -327,3 +386,8 @@
           (lambda ()
             (setq-local warning-suppress-types '(org-element))))
 
+(use-package! adoc-mode
+  :mode ("\\.adoc\\'" "\\.asciidoc\\'")
+  :config
+  (after! flycheck
+    (add-hook 'adoc-mode-hook #'flycheck-mode)))

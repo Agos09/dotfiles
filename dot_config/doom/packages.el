@@ -82,3 +82,5 @@
 
 (package! org-roam-readwise
   :recipe (:host github :repo "snowiow/org-roam-readwise"))
+
+(package! adoc-mode)
